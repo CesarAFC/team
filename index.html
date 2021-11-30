@@ -1,0 +1,406 @@
+<!doctype html>
+<html>
+  <head>
+    <!-- Required meta tags -->
+    <title>Añadir datos medidores</title>
+    <link rel="icon" type="image/png" href="https://alianzateam.com/wp-content/uploads/2019/11/favicon-1.png">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+   
+  </head>
+
+<style>
+    .form-group {
+    margin-top:5px;
+    }
+    
+    .input-field label {
+     color: #000;
+     }
+     
+     .input-field {
+     text-align: center;
+     font-family: helvetica;
+     }
+     
+     div{
+     text-align: center;
+     }
+     
+     body {
+     margin: 20px 50px 5px 20px;
+     height:auto; 
+     
+     font-family: helvetica;
+     background-color: #ffffff;
+     } 
+    
+     header{
+     width:center;
+     margin-left:200px;
+     margin-right:200px;
+     }
+     
+     footer{
+     text-align: center;
+     background-color:#7DE774;
+     width:103%;
+     font-family: Courier New;
+     }
+
+     .scroll-div{
+      width:auto;
+      height: 250px;
+      overflow: hidden;
+      overflow-y: scroll;
+    }
+    th{
+     position: sticky;
+     top: 0;
+     background: white;
+    }
+
+    th::after{
+      content: '';
+      width: 100%;
+      height: 2px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background: black;
+    }
+ 
+        /* width */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1; 
+    }
+    
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: #888; 
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555; 
+    }
+    </style>
+
+  <body>
+    <div><img src="https://storage.googleapis.com/efor-static/TEAM/firma/Firma-NUEVA_2019.gif" align="right" widht="150rem" height="150rem"></div><br>
+    <header>
+      <h1><div>Añadir lecturas de medidores. </div></h1>
+    </header>
+
+      <div class="container">
+      
+      <div id="userform">
+    
+      <div class="form-group mx-auto w-50 p-3">
+      <strong>Fecha:</strong><input id="fechas" type="date" value="Fecha" required>
+      </div>
+  
+         </div> 
+        
+        <div id="userform">
+          <div class="form-group mx-auto w-50 p-3">
+            <label for="categoria"><strong>Selecionar Categoria:</strong></label>
+            <select class="form-control" id="categoria" required>
+            </select>
+          </div> 
+      
+        <div class="form-group mx-auto w-50 p-3">
+          <label for="name"><strong>Selecionar Planta:</strong></label>
+          <select class="form-control" id="name" required>
+          </select>
+        </div>
+        
+          <div class="form-group mx-auto w-50 p-3">
+          <label for="equipo"><strong>Selecionar Equipo:</strong></label>
+          <select class="form-control" id="equipo" required>
+          </select>
+        </div>
+      
+          <div class="row mx-auto w-25 p-3">
+          <div class="col">
+            <label><strong>Valor tomado:</strong></label>
+            <input type="text" class="form-control" placeholder="Valor" id="valor"  onkeyup="preventDot(this.id)" required>
+              <div class="invalid-feedback">
+                Agregar valor.
+              </div>
+          </div>
+          </div>
+        </div>
+
+    <div>
+      <br>
+      <br>
+      <button id="btn" type="submit" class="btn btn-success mx-auto"><i class="fa fa-paper-plane" ></i><br>Enviar valor</button>
+      <button class="btn btn-outline-dark mx-auto" onclick="muestra_oculta('tabla')"><i class="fa fa-list-alt"></i><br>Mostrar Datos</button>
+    </div>
+    
+  </div> 
+    
+      <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center" style="min-height: 200px;">    
+        <div id="notif" class="mt-3">
+          <div style="background:salmon;" id="errorNot" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+          <div class="toast-header">
+            <strong class="mr-auto">Error</strong>
+            <small>Notificación</small>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+              </div>
+              <div class="toast-body">
+              Uno o más campos son requeridos.
+              </div>
+              </div>
+              
+              <div style="background:lightgreen;" id="goodNot" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+              <div class="toast-header">
+                <strong class="mr-auto">¡Enviado!</strong>
+                <small>Notificación</small>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+              </div>
+              <div class="toast-body">
+              El valor se envió correctamente
+              </div>
+              </div>        
+        </div>  
+     </div>  
+    <div class="scroll-bg">
+    <div class="scroll-div">
+   <div id="tabla" style="opacity:0 ; display:none ; margin: auto; width:30%" class="table table-striped table-hover table-sm">
+      <?var data = getDataRegistro();?>
+     <?if (data != undefined ){?>
+    <table width="500" class="input-field" id="tabladatos" style="font-size:12px" border="1">
+      <tr><th>CATEGORIA</th><th>PLANTA</th><th>EQUIPO</th><th>VALOR</th></tr>
+      <?for (var i = 0; i < data.length; i++) {?>
+        <tr id="Fila<?!=i?>">
+          <? for (var j = 1; j < data[i].length; j++) { ?>
+            <td><?=data[i][j]?></td>
+          <? } ?>
+      </tr>
+      <?}?>
+      <? } ?>
+    </table>
+
+
+   </div>
+   </div>  
+    </div> 
+  <br>  
+  <footer>
+  <br>
+  <img width="180" height="75" src="https://alianzateam.com/wp-content/uploads/2019/12/logo_Alianza-Team-blanco.png" class="image wp-image-1754  attachment-650x193 size-650x193"  style="max-width: 100%; height: auto;"  sizes="(max-width: 320px) 100vw, 220px"><br><br>
+   <div ><p>© 2020 TEAM FOODS COLOMBIA S.A. TODOS LOS DERECHOS RESERVADOS.</p></div><br>
+  </footer>
+  
+  
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  
+  
+  
+  
+    <script>
+
+      var arrayofarray;
+      var dat;
+      function pulsarenviar(){
+
+        if(validar()){
+          var categoria = document.getElementById("categoria");
+          var nombre = document.getElementById("name");
+          var qty =  document.getElementById("valor");
+          var equip =  document.getElementById("equipo");
+          var fech = document.getElementById("fechas"); 
+          var ces = {categoria: categoria.value, equipos: equip.value, nombre: nombre.value, qty: qty.value, fech: fech.value};
+          console.log(ces.categoria);
+          console.log(ces.fech)
+          google.script.run.withSuccessHandler(alenviar).addnewrow(ces);
+        
+        //desactiva el botón.
+        var botonenviar = document.getElementById("btn");
+        botonenviar.style.display="none";
+        
+                  //creamos la tabla con los datos
+          var body = document.getElementById("tabla_datos")
+            // Crea un elemento <table> y un elemento <tbody>
+          var tabla   = document.getElementById("tabladatos");
+          var tblBody = document.createElement("tbody");
+          // Crea las fila de la tabla
+          var hilera = document.createElement("tr");
+          //crea la celda
+          var celda = document.createElement("td");
+          var celda1 = document.createElement("td");
+          var celda2 = document.createElement("td");
+          var celda3 = document.createElement("td");
+
+          var textoCelda = document.createTextNode(categoria.value);
+          var textoCelda1 = document.createTextNode(nombre.value);
+          var textoCelda2 = document.createTextNode(qty.value);
+          var textoCelda3 = document.createTextNode(equip.value);
+          
+              celda.appendChild(textoCelda)
+              hilera.appendChild(celda);
+
+              celda1.appendChild(textoCelda1)
+              hilera.appendChild(celda1);
+
+              celda3.appendChild(textoCelda3)
+              hilera.appendChild(celda3);
+
+              celda2.appendChild(textoCelda2)
+              hilera.appendChild(celda2);
+              
+              
+            // agrega la hilera al final de la tabla (al final del elemento tblbody)
+          tblBody.appendChild(hilera);
+
+            // posiciona el <tbody> debajo del elemento <table>
+            tabla.appendChild(tblBody);
+            // appends <table> into <body>
+            body.appendChild(tabla);
+              // modifica el atributo "border" de la tabla y lo fija a "2";
+            tabla.setAttribute("border", "1");
+
+        } else{
+            //despues
+            $('#errorNot').toast('show');
+              }
+      }
+      
+      //agregar id para limpiar.
+      function alenviar(e){
+      limpiarcampos(["valor"]);
+        $('#goodNot').toast('show');
+      }
+      
+      function limpiarcampos(campos){
+      campos.forEach(function(campos){});
+      var el =  document.getElementById(campos);
+        el.value = "";
+        
+    //activa el botón.
+        var botonenviar = document.getElementById("btn");
+        botonenviar.style.display="inline";
+      listaslimpias();
+      }
+
+      function validar(){
+      var inputsvalidar = document.querySelectorAll("#userform input, #userform select");
+      
+      Array.prototype.forEach.call(inputsvalidar, function(el){
+      if(el.checkValidity()){el.classList.remove("is-invalid")}else{el.classList.add("is-invalid")}
+      
+        
+        
+       });
+       
+      return Array.prototype.every.call(inputsvalidar, function(el){
+        return el.checkValidity();
+      });
+      }
+    
+      function cargarlista(){
+        google.script.run.withSuccessHandler(luegocargarlista).datoslistahoja();
+      }
+    
+      function listaslimpias(el, arrayofarray, index){
+        var listavacia = [];
+        el.innerHTML = '  <option></option> ';
+        arrayofarray.forEach(function(r){
+          if(listavacia.indexOf(r[index]) === -1){
+            var option = document.createElement("option");
+            option.textContent = r[index];
+            el.appendChild(option);
+            listavacia.push(r[index]);
+          }
+        });
+      }
+      
+      function luegocargarlista(arrayofarray){ 
+        arrayofvalues = arrayofarray.filter(function(r){return true; });
+        var nombre = document.getElementById("categoria");
+        listaslimpias(nombre, arrayofvalues,0);
+        
+      }
+        
+      function listadependiente(){
+        var nombre = document.getElementById("name");
+        var categoria = document.getElementById("categoria").value;
+        var arraycategoria = arrayofvalues.filter(function(r){return r[0] === categoria; });
+        listaslimpias(nombre, arraycategoria,1);
+        
+      }
+      
+        function listadependientedos(){
+        var equipo = document.getElementById("equipo");
+        var names = document.getElementById("name").value;
+        var categoria = document.getElementById("categoria").value;
+        var arraycategoria = arrayofvalues.filter(function(r){return r[0] === categoria && r[1] === names  });
+        listaslimpias(equipo, arraycategoria,2);
+        
+      }
+      
+      function muestra_oculta(id){
+      if (document.getElementById){ //se obtiene el id
+      var el = document.getElementById(id); //se define la variable "el" igual a nuestro div
+        el.style.display = (el.style.display == 'none') ? 'block' : 'none'; //damos un atributo display:none que oculta el div
+
+      if (el.style.opacity !== undefined) {
+      el.style.opacity = '1';
+     } else {
+    alert("El explorador no soporta este comando");
+    }
+}
+}
+
+      function preventDot(id){
+        str = document.getElementById(id).value;
+         document.getElementById(id).value = (str.replace(",","."));  
+     }
+
+
+
+     function datosprevios(){
+       var categorias = document.getElementById("categoria");
+       var nombres = document.getElementById("name");
+       var equips =  document.getElementById("equipo");
+       var fechs = document.getElementById("fechas"); 
+       var datos_info = {categoria: categorias.value, equipos: equips.value, nombre: nombres.value, fech: fechs.value};
+       console.log(datos_info)
+       google.script.run.withSuccessHandler(rev_dato).filtrarDatos(datos_info);
+     }
+     
+     function rev_dato(d){
+       console.log(d);
+       var val = document.getElementById("valor");
+       val.value = d;  
+     }
+
+    
+        document.getElementById("btn").addEventListener("click",pulsarenviar);
+        document.getElementById("categoria").addEventListener("change",listadependiente);
+        document.getElementById("name").addEventListener("change",listadependientedos);
+        document.addEventListener("DOMContentLoaded",cargarlista);
+        document.getElementById("equipo").addEventListener("change",datosprevios);
+        
+        
+    </script>
+  
+  </body>
+</html>
